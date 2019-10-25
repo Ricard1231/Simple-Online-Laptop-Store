@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Where are the mappers -->
+<mapper namespace="com.neusoft.dao.UserDao">
+	<!-- Mapping of class to the table -->
+	<resultMap type="com.neusoft.beans.User" id="UserResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="username" property="username" jdbcType="CHAR" />
+		<id column="password" property="password" jdbcType="CHAR" />
+		<id column="cardnum" property="cardnum" jdbcType="CHAR" />
+		<id column="cardpw" property="cardpw" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap type="com.neusoft.beans.Laptop"
+		id="LaptopResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="name" property="name" jdbcType="CHAR" />
+		<id column="brand" property="brand" jdbcType="CHAR" />
+		<id column="OS" property="os" jdbcType="CHAR" />
+		<id column="processor" property="processor" jdbcType="CHAR" />
+		<id column="graphics" property="graphics" jdbcType="CHAR" />
+		<id column="RAM" property="ram" jdbcType="CHAR" />
+		<id column="screen" property="screen" jdbcType="CHAR" />
+		<id column="resolution" property="resolution" jdbcType="CHAR" />
+		<id column="storage" property="storage" jdbcType="CHAR" />
+		<id column="image" property="image" jdbcType="CHAR" />
+		<id column="price" property="price" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap type="com.neusoft.beans.Cart" id="CartResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="username" property="username" jdbcType="CHAR" />
+		<id column="laptopname" property="laptopname" jdbcType="CHAR" />
+		<id column="price" property="price" jdbcType="DECIMAL" />
+		<id column="quantity" property="quantity" jdbcType="INTEGER" />
+		<id column="total" property="total" jdbcType="DECIMAL" />
+	</resultMap>
+	<!-- Query target a Single User from the DB -->
+	<select id="getPassword" parameterType="String"
+		resultType="String">
+		select password from user where username=#{username}
+	</select>
+	<insert id="register">
+		insert into user(username, password, cardnum, cardpw)
+		values(#{username}, #{password}, #{cardnum},
+		#{cardpw})
+	</insert>
+	<select id="showAllLaptops" resultMap="LaptopResultMap">
+		select * from laptops
+	</select>
+	<select id="showLaptopInfo" parameterType="int"
+		resultMap="LaptopResultMap">
+		select * from laptops where id=#{id}
+	</select>
+	<insert id="addtocart">
+		insert into cart(username,
+		laptopname, price, quantity, total)
+		values(#{username},#{laptopname},#{price},#{quantity},#{total})
+	</insert>
+	<select id="showCart" parameterType="String"
+		resultMap="CartResultMap">
+		select * from cart where username=#{username}
+	</select>
+	<delete id="deleteCart" parameterType="int">
+		delete from cart where id=#{id}
+	</delete>
+	<select id="getCardpw" parameterType="String" resultType="String">
+		select cardpw from user where cardnum=#{cardnum}
+	</select>
+	<delete id="deleteCartAll" parameterType="String">
+		delete from cart where username=#{username}
+	</delete>
+	<insert id="addOrder">
+		insert into orders(username, total, time) values(#{username},#{totalcost},#{timestamp})
+	</insert>
+	<select id="getUserInfo" resultMap="UserResultMap">
+		select * from user where cardnum=#{cardnum} and cardpw=#{cardpw}
+	</select>
+</mapper>

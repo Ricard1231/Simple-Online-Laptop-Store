@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.dao.AdminDao">
+	<resultMap type="com.neusoft.beans.User" id="UserResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="username" property="username" jdbcType="CHAR" />
+		<id column="password" property="password" jdbcType="CHAR" />
+		<id column="cardnum" property="cardnum" jdbcType="CHAR" />
+		<id column="cardpw" property="cardpw" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap type="com.neusoft.beans.Laptop"
+		id="LaptopResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="name" property="name" jdbcType="CHAR" />
+		<id column="brand" property="brand" jdbcType="CHAR" />
+		<id column="OS" property="os" jdbcType="CHAR" />
+		<id column="processor" property="processor" jdbcType="CHAR" />
+		<id column="graphics" property="graphics" jdbcType="CHAR" />
+		<id column="RAM" property="ram" jdbcType="CHAR" />
+		<id column="screen" property="screen" jdbcType="CHAR" />
+		<id column="resolution" property="resolution" jdbcType="CHAR" />
+		<id column="storage" property="storage" jdbcType="CHAR" />
+		<id column="image" property="image" jdbcType="CHAR" />
+		<id column="price" property="price" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap type="com.neusoft.beans.Images"
+		id="ImagesResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="name" property="name" jdbcType="CHAR" />
+		<id column="path" property="path" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap type="com.neusoft.beans.Order" id="OrderResultMap">
+		<id column="orderid" property="orderid" jdbcType="INTEGER" />
+		<id column="username" property="username" jdbcType="CHAR" />
+		<id column="total" property="total" jdbcType="DECIMAL" />
+		<id column="time" property="time" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<insert id="registerLaptop">
+		insert into laptops(name, brand, OS, processor,
+		graphics, RAM, screen,
+		resolution, storage, image, price)
+		values(#{name},
+		#{brand}, #{os}, #{processor},
+		#{graphics}, #{ram},
+		#{screen},
+		#{resolution}, #{storage}, #{image},
+		#{price})
+	</insert>
+	<select id="getImages" resultMap="ImagesResultMap">
+		select * from images
+	</select>
+	<select id="getUsers" resultMap="UserResultMap">
+		select * from user
+	</select>
+	<select id="getLaptops" resultMap="LaptopResultMap">
+		select * from laptops
+	</select>
+	<select id="getOrders" resultMap="OrderResultMap">
+		select * from orders
+	</select>
+	<delete id="deleteUser" parameterType="int">
+		delete from user where
+		id=#{id}
+	</delete>
+	<delete id="deleteLaptop" parameterType="int">
+		delete from laptops
+		where id=#{id}
+	</delete>
+	<delete id="deleteOrder" parameterType="int">
+		delete from orders
+		where orderid=#{id}
+	</delete>
+	<select id="getUserInfo" parameterType="int"
+		resultMap="UserResultMap">
+		select * from user where id=#{id}
+	</select>
+	<select id="getLaptopInfo" parameterType="int"
+		resultMap="LaptopResultMap">
+		select * from laptops where id=#{id}
+	</select>
+	<update id="updateUser">
+		update user set username=#{username},
+		password=#{password}, cardnum=#{cardnum}, cardpw=#{cardpw} WHERE
+		id=#{id}
+	</update>
+	<update id="updateLaptop">
+		update laptops set name=#{name}, brand=#{brand},
+		OS=#{os}, processor=#{processor}, graphics=#{graphics}, RAM=#{ram},
+		screen=#{screen}, resolution=#{resolution}, storage=#{storage},
+		image=#{image}, price=#{price} where id=#{id}
+	</update>
+</mapper>
